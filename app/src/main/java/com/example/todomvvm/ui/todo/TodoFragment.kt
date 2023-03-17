@@ -1,70 +1,55 @@
-package com.example.todomvvm.ui.todo;
+package com.example.todomvvm.ui.todo
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.todomvvm.R
+import com.example.todomvvm.database.Todo
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.todomvvm.R;
-import com.example.todomvvm.database.Todo;
-
-import java.util.List;
-
-import static androidx.lifecycle.ViewModelProviders.of;
-
-public class TodoFragment extends Fragment {
-
-    public static TodoFragment newInstance() {
-        return new TodoFragment();
-    }
-
-    private TodoListAdapter adapter;
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+class TodoFragment : Fragment() {
+    private var adapter: TodoListAdapter? = null
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 //      return inflater.inflate(R.layout.main_fragment, container, false);
-
-        View view;
-        view = inflater.inflate(R.layout.main_fragment, container, false);
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
-        this.adapter = new TodoListAdapter(this);
-        recyclerView.setAdapter(adapter);
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        return view;
+        val view: View
+        view = inflater.inflate(R.layout.main_fragment, container, false)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerview)
+        adapter = TodoListAdapter(this)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        return view
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         // deprecated, mTodoViewModel = of(this).get(TodoViewModel.class);
-        TodoViewModel mTodoViewModel = new ViewModelProvider(this).get(TodoViewModel.class);
+        val mTodoViewModel = ViewModelProvider(this).get(
+            TodoViewModel::class.java
+        )
 
         // TODO: Use the ViewModel
 
         // Add an observer on the LiveData returned by getTodos.
         // The onChanged() method fires when the observed data changes and the activity is
         // in the foreground.
-        mTodoViewModel.getTodos().observe(getViewLifecycleOwner(), new Observer<List<Todo>>() {
-            @Override
-            public void onChanged(@Nullable final List<Todo> todos) {
-                // Update the cached copy of the todos in the adapter.
-                adapter.setTodos(todos);
-            }
-        });
-
+        mTodoViewModel.todos?.observe(viewLifecycleOwner
+        ) { todos -> // Update the cached copy of the todos in the adapter.
+            adapter!!.setTodos(todos)
+        }
     }
 
+    companion object {
+        fun newInstance(): TodoFragment {
+            return TodoFragment()
+        }
+    }
 }
