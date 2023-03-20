@@ -3,6 +3,8 @@ package com.example.todomvvm.database
 import android.app.Application
 import android.os.AsyncTask
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 
 /**
  * Abstracted Repository as promoted by the Architecture Guide.
@@ -22,22 +24,19 @@ class TodoRepository(application: Application) {
     init {
         val db: TodoRoomDatabase? = TodoRoomDatabase.Companion.getDatabase(application)
         mTodoDao = db?.todoDao()
-        todos = mTodoDao?.todos
+        todos = mTodoDao?.getAll()
     }
 
     // You must call this on a non-UI thread or your app will crash.
     // Like this, Room ensures that you're not doing any long running operations on the main
     // thread, blocking the UI.
-    fun insert(todo: Todo?) {
-        insertAsyncTask(mTodoDao).execute(todo)
+    suspend fun insert(todo: Todo?) {
+        mTodoDao!!.insert(todo)
     }
 
-    private class insertAsyncTask internal constructor(private val mAsyncTaskDao: TodoDao?) :
-        AsyncTask<Todo?, Void?, Void?>() {
-
-        override fun doInBackground(vararg params: Todo?): Void? {
-            mAsyncTaskDao!!.insert(params[0])
-            return null
-        }
+    fun getAll(): LiveData<List<Todo>>? {
+        return mTodoDao?.getAll()
     }
+
+
 }

@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todomvvm.R
 import com.example.todomvvm.database.Todo
@@ -39,6 +40,9 @@ class TodoListAdapter internal constructor(context: TodoFragment) :
         } else {
             // Covers the case of data not being ready yet.
             holder.todoItemView.setText(R.string.no_todo)
+        }
+        holder.todoItemView.setOnClickListener {
+            Toast.makeText(holder.todoItemView.context, mTodos!![position].detail, Toast.LENGTH_SHORT).show()
         }
     }
 

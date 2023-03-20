@@ -13,13 +13,13 @@ import androidx.room.*
  */
 @Dao
 interface TodoDao {
-    @get:Query("SELECT * FROM todo_table")
-    val todos: LiveData<List<Todo>>?
+    @Query("SELECT * FROM todo_table")
+    fun getAll() : LiveData<List<Todo>>?
 
-    // conflict resolution strategy - IGNORE allows insert of same Todo multiple times
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(todo: Todo?)
+    // conflict resolution strategy - REPLACE will change the item if matched
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(todo: Todo?)
 
     @Query("DELETE FROM todo_table")
-    fun deleteAll()
+    suspend fun deleteAll()
 }
