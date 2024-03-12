@@ -7,7 +7,7 @@ buildscript {
         
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.4.2'
+        classpath 'com.android.tools.build:gradle:8.2.1'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -25,9 +25,3 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-ext {
-    roomVersion = '2.5.0'
-    archLifecycleVersion = '2.2.0'
-    coreTestingVersion = '2.2.0'
-    materialVersion = '1.5.0'
-}
