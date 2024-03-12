@@ -14,11 +14,11 @@ import androidx.room.*
 @Dao
 interface TodoDao {
     @Query("SELECT * FROM todo_table")
-    fun getAll() : LiveData<List<Todo>>?
+    fun getAll() : LiveData<List<Todo>>
 
     // conflict resolution strategy - REPLACE will change the item if matched
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(todo: Todo?)
+    suspend fun insert(todo: Todo)
 
     @Query("DELETE FROM todo_table")
     suspend fun deleteAll()

@@ -22,7 +22,7 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
         todos = mRepository.todos
     }
 
-    fun insert(todo: Todo?) {
+    fun insert(todo: Todo) {
         viewModelScope.launch {
             mRepository.insert(todo)
         }
