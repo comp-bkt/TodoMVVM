@@ -4,4 +4,4 @@
 ### kotlin branch
 * Code refactored to Kotlin
 ### compose branch
-* Code refactored for Compose
+* Code refactored for Compose (1st Draft)
