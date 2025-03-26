@@ -18,8 +18,6 @@ import com.example.todomvvm.database.Todo;
 
 import java.util.List;
 
-import static androidx.lifecycle.ViewModelProviders.of;
-
 public class TodoFragment extends Fragment {
 
     public static TodoFragment newInstance() {
@@ -32,7 +30,6 @@ public class TodoFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-//      return inflater.inflate(R.layout.main_fragment, container, false);
 
         View view;
         view = inflater.inflate(R.layout.main_fragment, container, false);

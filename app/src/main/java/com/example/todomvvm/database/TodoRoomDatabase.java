@@ -46,7 +46,6 @@ public abstract class TodoRoomDatabase extends RoomDatabase {
                 @Override
                 public void onOpen (@NonNull SupportSQLiteDatabase db){
                     super.onOpen(db);
-//                  super.onCreate(db);
 
                     // If you want to keep the data through app restarts,
                     // comment out the following line.
